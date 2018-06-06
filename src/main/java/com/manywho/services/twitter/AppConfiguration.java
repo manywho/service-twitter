@@ -15,18 +15,18 @@ public class AppConfiguration {
 
     public String getName() { return "twitter"; }
 
-    public String getOauth2ClientId() {
-        return this.serviceConfigurationDefault.get("oauth2.clientId");
+    public String getOauthClientId() {
+        return this.serviceConfigurationDefault.get("oauth.clientId");
     }
 
-    public String getOauth2ClientSecret()
+    public String getOauthClientSecret()
     {
-        return this.serviceConfigurationDefault.get("oauth2.clientSecret");
+        return this.serviceConfigurationDefault.get("oauth.clientSecret");
     }
 
 
     public String getAuthorizationUrl() {
-        return String.format("https://api.twitter.com/oauth/authenticate?client_id=%s", this.getOauth2ClientId());
+        return String.format("https://api.twitter.com/oauth/authenticate?client_id=%s", this.getOauthClientId());
     }
 
     public String getRedisUrl() {

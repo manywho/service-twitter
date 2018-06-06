@@ -19,7 +19,7 @@ public class TwitterProvider implements Provider<Twitter> {
     @Override
     public Twitter get() {
         Twitter twitter = TwitterFactory.getSingleton();
-        twitter.setOAuthConsumer(appConfiguration.getOauth2ClientId(), appConfiguration.getOauth2ClientSecret());
+        twitter.setOAuthConsumer(appConfiguration.getOauthClientId(), appConfiguration.getOauthClientSecret());
         return twitter;
     }
 }

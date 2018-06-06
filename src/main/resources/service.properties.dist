@@ -1,5 +1,5 @@
 # Twitter-ManyWho
 #staging
-oauth2.clientId=
-oauth2.clientSecret=
+oauth.clientId=
+oauth.clientSecret=
 redis.url=
