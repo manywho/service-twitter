@@ -38,13 +38,13 @@ public class AuthenticationManager {
         AccessToken accessToken;
 
         try {
-            accessToken = twitter.getOAuthAccessToken(new RequestToken(credentials.getToken(), tokenSecret));
+            accessToken = twitter.getOAuthAccessToken(new RequestToken(credentials.getToken(), tokenSecret), credentials.getVerifier());
         } catch (TwitterException e) {
             throw new RuntimeException("Unable to get the access token from TWITTER: " + e.getMessage(), e);
         }
 
         if (accessToken == null) {
-            throw new RuntimeException("No access token was given back from JIRA");
+            throw new RuntimeException("No access token was given back from TWITTER");
         }
 
         // Now we need to create this concatenated token + secret "token" so we can send it back and forth in one field
@@ -63,8 +63,8 @@ public class AuthenticationManager {
 
     private AuthenticatedWhoResult createAuthenticatedWhoResult(AccountSettings user, String token) {
         AuthenticatedWhoResult result = new AuthenticatedWhoResult();
-        result.setDirectoryId("JIRA");
-        result.setDirectoryName("JIRA");
+        result.setDirectoryId("TWITTER");
+        result.setDirectoryName("TWITTER");
         result.setEmail("none");
         result.setFirstName(user.getScreenName());
         result.setIdentityProvider("?");

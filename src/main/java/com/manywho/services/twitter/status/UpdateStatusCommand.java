@@ -21,7 +21,7 @@ public class UpdateStatusCommand implements ActionCommand<ServiceConfiguration, 
     public ActionResponse<UpdateStatus.Output> execute(ServiceConfiguration serviceConfiguration, ServiceRequest serviceRequest, UpdateStatus.Input input) {
         try {
             Status status = twitter.tweets().updateStatus(input.getText());
-            UpdateStatus.Output output = new UpdateStatus.Output(new StatusType(status.getId(), status.getText()));
+            UpdateStatus.Output output = new UpdateStatus.Output(new StatusType(String.valueOf(status.getId()), status.getText()));
             return new ActionResponse<>(output);
         } catch (TwitterException e) {
             throw new RuntimeException("Error updating status", e);

@@ -32,29 +32,38 @@ public class AuthorizationManager {
     }
 
     public ObjectDataResponse authorization(AuthenticatedWho authenticatedWho, ObjectDataRequest request) {
-            ServiceConfiguration configuration = configurationParser.from(request);
+        ServiceConfiguration configuration = configurationParser.from(request);
 
-            String status;
+        String status;
 
-            switch (request.getAuthorization().getGlobalAuthenticationType()) {
-                case AllUsers:
-                    // If it's a public user (i.e. not logged in) then return a 401
-                    if (authenticatedWho.getUserId().equals("PUBLIC_USER")) {
-                        status = "401";
-                    } else {
-                        status = "200";
-                    }
-
-                    break;
-                case Public:
-                    status = "200";
-                    break;
-                case Specified:
-                default:
+        switch (request.getAuthorization().getGlobalAuthenticationType()) {
+            case AllUsers:
+                // If it's a public user (i.e. not logged in) then return a 401
+                if (authenticatedWho.getUserId().equals("PUBLIC_USER")) {
                     status = "401";
-                    break;
-            }
+                } else {
+                    status = "200";
+                }
 
+                break;
+            case Public:
+                status = "200";
+                break;
+            case Specified:
+            default:
+                status = "401";
+                break;
+        }
+
+        $User user = new $User();
+        user.setDirectoryId("TWITTER");
+        user.setDirectoryName("TWITTER");
+        user.setAuthenticationType(AuthorizationType.Oauth);
+
+        user.setStatus(status);
+        user.setUserId("");
+
+        if (status.equals("401")) {
             RequestToken requestToken;
             try {
                 requestToken = twitter.getOAuthRequestToken();
@@ -62,32 +71,29 @@ public class AuthorizationManager {
                 throw new RuntimeException("Unable to get the OAuth1.0a request token from Twitter", e);
             }
 
+
             repository.putTokenSecret(requestToken.getToken(), requestToken.getTokenSecret());
 
-            $User user = new $User();
-            user.setDirectoryId("TWITTER");
-            user.setDirectoryName("TWITTER");
-            user.setAuthenticationType(AuthorizationType.Oauth);
             user.setLoginUrl(requestToken.getAuthorizationURL());
-            user.setStatus(status);
-            user.setUserId("");
-
-            return new ObjectDataResponse(typeBuilder.from(user));
+        } else {
+            user.setLoginUrl("ttps://api.twitter.com/oauth/authorize?oauth_token=123");
         }
-
-        public ObjectDataResponse groupAttributes() {
-            throw new RuntimeException("Specifying group restrictions isn't yet supported in the JIRA Service");
-        }
-
-        public ObjectDataResponse groups(ObjectDataRequest request) {
-            throw new RuntimeException("Specifying group restrictions isn't yet supported in the JIRA Service");
-        }
-
-        public ObjectDataResponse userAttributes() {
-            throw new RuntimeException("Specifying user restrictions isn't yet supported in the JIRA Service");
-        }
-
-        public ObjectDataResponse users(ObjectDataRequest request) {
-            throw new RuntimeException("Specifying user restrictions isn't yet supported in the JIRA Service");
-        }
+        return new ObjectDataResponse(typeBuilder.from(user));
     }
+
+    public ObjectDataResponse groupAttributes() {
+        throw new RuntimeException("Specifying group restrictions isn't yet supported in the TWITTER Service");
+    }
+
+    public ObjectDataResponse groups(ObjectDataRequest request) {
+        throw new RuntimeException("Specifying group restrictions isn't yet supported in the TWITTER Service");
+    }
+
+    public ObjectDataResponse userAttributes() {
+        throw new RuntimeException("Specifying user restrictions isn't yet supported in the TWITTER Service");
+    }
+
+    public ObjectDataResponse users(ObjectDataRequest request) {
+        throw new RuntimeException("Specifying user restrictions isn't yet supported in the TWITTER Service");
+    }
+}

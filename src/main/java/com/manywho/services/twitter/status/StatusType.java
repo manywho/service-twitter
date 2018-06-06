@@ -7,23 +7,23 @@ import com.manywho.sdk.services.types.Type;
 public class StatusType implements Type {
     public final static String NAME = "Status";
 
-    public StatusType(Long id, String text) {
+    public StatusType(String id, String text) {
         this.id = id;
         this.text = text;
     }
 
     @Type.Identifier
-    @Type.Property(name = "ID", contentType = ContentType.Number)
-    private Long id;
+    @Type.Property(name = "ID", contentType = ContentType.String)
+    private String id;
 
     @Type.Property(name = "Text", contentType = ContentType.String)
     private String text;
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
