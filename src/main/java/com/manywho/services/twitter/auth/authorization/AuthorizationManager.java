@@ -62,6 +62,7 @@ public class AuthorizationManager {
 
         user.setStatus(status);
         user.setUserId("");
+        user.setLoginUrl("");
 
         if (status.equals("401")) {
             RequestToken requestToken;
@@ -71,13 +72,11 @@ public class AuthorizationManager {
                 throw new RuntimeException("Unable to get the OAuth1.0a request token from Twitter", e);
             }
 
-
             repository.putTokenSecret(requestToken.getToken(), requestToken.getTokenSecret());
 
             user.setLoginUrl(requestToken.getAuthorizationURL());
-        } else {
-            user.setLoginUrl("https://api.twitter.com/oauth/authorize?oauth_token=123");
         }
+
         return new ObjectDataResponse(typeBuilder.from(user));
     }
 
