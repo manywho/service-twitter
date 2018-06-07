@@ -76,7 +76,7 @@ public class AuthorizationManager {
 
             user.setLoginUrl(requestToken.getAuthorizationURL());
         } else {
-            user.setLoginUrl("ttps://api.twitter.com/oauth/authorize?oauth_token=123");
+            user.setLoginUrl("https://api.twitter.com/oauth/authorize?oauth_token=123");
         }
         return new ObjectDataResponse(typeBuilder.from(user));
     }
