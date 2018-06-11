@@ -1,42 +1,68 @@
-ManyWho Twitter Service
-==========================
+Twitter Service
+===============
 
-#### Running
+> This service is currently in development, and not yet recommended for use in production environments
 
-The service is a Jersey JAX-RS application, that by default is run under the Grizzly2 server on port 8080 (if you use 
-the packaged JAR).
+[![Build Status](https://travis-ci.org/manywho/service-twitter.svg)](https://travis-ci.org/manywho/service-twitter)
 
-To build the service, you will need to have Apache Ant, Maven 3 and a Java 8 implementation installed.
+This service offers a very basic twitter integration for your flows, giving support for authorisation and update your status.
 
-You will need to generate a configuration file for the service by running the provided build.xml script with Ant.
+## Usage
 
-# Twitter-ManyWho
+If you need to, it's easy to spin up your own instance of the service if you follow these instructions:
 
-$ ant -Doauth2.clientId=xxx -Doauth2.clientSecret=xxx -Dredis.url=xxx
-Now you can build the runnable shaded JAR
+### Configuring
 
-##### Defaults
+The available configuration settings for the application are:
 
-Running the following command will start the service listening on `0.0.0.0:8080/api/twitter/1`:
+* **REDIS_URL:** A Redis connection string, e.g. `redis://localhost:5432`
+* **OAUTH_CLIENT_ID**
+* **OAUTH_CLIENT_SECRET**
 
-```bash
-$ java -jar target/twitter-1.0-SNAPSHOT.jar
-```
+#### Environment Variables
 
-##### Custom Port
-
-You can specify a custom port to run the service on by passing the `server.port` property when running the JAR. The
-following command will start the service listening on port 9090 (`0.0.0.0:9090/api/twitter/1`):
+You will have to configure the application at runtime by using environment variables, so you will need to run the
+application like this:
 
 ```bash
-$ java -Dserver.port=9090 -jar target/twitter-1.0-SNAPSHOT.jar
+$ REDIS_URL=redis://localhost:5432 OAUTH_CLIENT_ID=id OAUTH_CLIENT_SECRET=secret java -jar target/twitter-*.jar
 ```
+
+### Building
+
+To build the application, you will need to have Maven 3 and a Java 8 implementation installed (OpenJDK and Oracle Java SE
+are both supported).
+
+Now you can build the runnable shaded JAR:
+
+```bash
+$ mvn clean package
+```
+
+### Running
+
+The application is a RestEASY JAX-RS application, that by default is run under the Jetty server on port 8080 (if you
+use the packaged JAR).
+
+#### Defaults
+
+Running the following command will start the service listening on `0.0.0.0:8080`:
+
+```bash
+$ java -jar target/twitter-*.jar
+```
+
+#### Heroku
+
+The service is compatible with Heroku, and can be deployed by clicking the button below:
+
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/manywho/service-twitter)
 
 ## Contributing
 
-Contribution are welcome to the project - whether they are feature requests, improvements or bug fixes! Refer to 
+Contributions are welcome to the project - whether they are feature requests, improvements or bug fixes! Refer to 
 [CONTRIBUTING.md](CONTRIBUTING.md) for our contribution requirements.
 
 ## License
 
-This service is released under the [MIT License](http://opensource.org/licenses/mit-license.php).
+This service is released under the [MIT License](https://opensource.org/licenses/MIT).

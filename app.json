@@ -1,0 +1,25 @@
+{
+  "name": "Boomi Flow Twitter Service",
+  "description": "A microservice that integrates Boomi Flow with Twitter",
+  "repository": "https://github.com/manywho/service-twitter",
+  "logo": "https://s3.amazonaws.com/manywho-service-assets/icons/service-twitter.png",
+  "keywords": [
+    "manywho",
+    "boomi",
+    "twitter"
+  ],
+  "env": {
+    "REDIS_URL": {
+      "description": "A Redis connection string that points to where data should be stored",
+      "required": true
+    },
+    "OAUTH_CLIENT_ID": {
+      "description": "The client id of the oauth client for twitter",
+      "required": true
+    },
+    "OAUTH_CLIENT_SECRET": {
+      "description": "The client secret of the oauth client for twitter",
+      "required": true
+    }
+  }
+}

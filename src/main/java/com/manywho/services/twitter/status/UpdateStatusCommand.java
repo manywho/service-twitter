@@ -4,8 +4,7 @@ import com.google.inject.Inject;
 import com.manywho.sdk.api.run.elements.config.ServiceRequest;
 import com.manywho.sdk.services.actions.ActionCommand;
 import com.manywho.sdk.services.actions.ActionResponse;
-import com.manywho.services.twitter.configuration.ServiceConfiguration;
-import twitter4j.Status;
+import com.manywho.services.twitter.ServiceConfiguration;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
@@ -19,12 +18,15 @@ public class UpdateStatusCommand implements ActionCommand<ServiceConfiguration, 
 
     @Override
     public ActionResponse<UpdateStatus.Output> execute(ServiceConfiguration serviceConfiguration, ServiceRequest serviceRequest, UpdateStatus.Input input) {
+        twitter4j.Status status;
+
         try {
-            Status status = twitter.tweets().updateStatus(input.getText());
-            UpdateStatus.Output output = new UpdateStatus.Output(new StatusType(String.valueOf(status.getId()), status.getText()));
-            return new ActionResponse<>(output);
+            status = twitter.tweets().updateStatus(input.getText());
         } catch (TwitterException e) {
             throw new RuntimeException("Error updating status", e);
         }
+
+        UpdateStatus.Output output = new UpdateStatus.Output(new Status(String.valueOf(status.getId()), status.getText()));
+        return new ActionResponse<>(output);
     }
 }

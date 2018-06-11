@@ -2,24 +2,17 @@ package com.manywho.services.twitter.guice;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.manywho.services.twitter.AppConfiguration;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
 
 public class JedisPoolProvider implements Provider<JedisPool> {
 
-    private AppConfiguration serviceConfigurationDefault;
-
     @Inject
-    public JedisPoolProvider(AppConfiguration serviceConfigurationDefault) {
-        this.serviceConfigurationDefault = serviceConfigurationDefault;
-    }
+    public JedisPoolProvider() { }
 
     @Override
     public JedisPool get() {
-
-        JedisPool pool = new JedisPool(serviceConfigurationDefault.getRedisUrl());
-
+        JedisPool pool = new JedisPool(System.getenv("REDIS_URL"));
         pool.addObjects(JedisPoolConfig.DEFAULT_MAX_IDLE);
 
         return pool;

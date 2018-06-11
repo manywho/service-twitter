@@ -3,7 +3,7 @@ package com.manywho.services.twitter.status;
 import com.manywho.sdk.api.ContentType;
 import com.manywho.sdk.services.actions.Action;
 
-@Action.Metadata(name = "Update Status", summary = "What's happening?", uri = "update-text")
+@Action.Metadata(name = "Update Status", summary = "What's happening?", uri = "status-update")
 public class UpdateStatus {
     public static class Input {
         @Action.Input(name = "Text", contentType = ContentType.String, required = true)
@@ -16,10 +16,10 @@ public class UpdateStatus {
 
     public static class Output {
         @Action.Output(name = "Status", contentType = ContentType.Object)
-        private StatusType statusType;
+        private Status status;
 
-        public Output(StatusType statusType) {
-            this.statusType = statusType;
+        public Output(Status status) {
+            this.status = status;
         }
     }
 }

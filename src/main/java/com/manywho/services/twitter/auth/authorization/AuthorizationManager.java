@@ -5,35 +5,25 @@ import com.manywho.sdk.api.AuthorizationType;
 import com.manywho.sdk.api.run.elements.type.ObjectDataRequest;
 import com.manywho.sdk.api.run.elements.type.ObjectDataResponse;
 import com.manywho.sdk.api.security.AuthenticatedWho;
-import com.manywho.sdk.services.configuration.ConfigurationParser;
 import com.manywho.sdk.services.types.TypeBuilder;
 import com.manywho.sdk.services.types.system.$User;
-import com.manywho.services.twitter.AppConfiguration;
-import com.manywho.services.twitter.configuration.ServiceConfiguration;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.RequestToken;
 
-import java.util.UUID;
-
-
 public class AuthorizationManager {
     private final AuthorizationRepository repository;
-    private final ConfigurationParser configurationParser;
     private final TypeBuilder typeBuilder;
     private final Twitter twitter;
 
     @Inject
-    public AuthorizationManager(AuthorizationRepository repository, ConfigurationParser configurationParser, TypeBuilder typeBuilder, Twitter twitter) {
+    public AuthorizationManager(AuthorizationRepository repository, TypeBuilder typeBuilder, Twitter twitter) {
         this.repository = repository;
-        this.configurationParser = configurationParser;
         this.typeBuilder = typeBuilder;
         this.twitter = twitter;
     }
 
     public ObjectDataResponse authorization(AuthenticatedWho authenticatedWho, ObjectDataRequest request) {
-        ServiceConfiguration configuration = configurationParser.from(request);
-
         String status;
 
         switch (request.getAuthorization().getGlobalAuthenticationType()) {
@@ -81,18 +71,18 @@ public class AuthorizationManager {
     }
 
     public ObjectDataResponse groupAttributes() {
-        throw new RuntimeException("Specifying group restrictions isn't yet supported in the TWITTER Service");
+        throw new RuntimeException("Specifying group restrictions isn't yet supported in the Twitter Service");
     }
 
     public ObjectDataResponse groups(ObjectDataRequest request) {
-        throw new RuntimeException("Specifying group restrictions isn't yet supported in the TWITTER Service");
+        throw new RuntimeException("Specifying group restrictions isn't yet supported in the Twitter Service");
     }
 
     public ObjectDataResponse userAttributes() {
-        throw new RuntimeException("Specifying user restrictions isn't yet supported in the TWITTER Service");
+        throw new RuntimeException("Specifying user restrictions isn't yet supported in the Twitter Service");
     }
 
     public ObjectDataResponse users(ObjectDataRequest request) {
-        throw new RuntimeException("Specifying user restrictions isn't yet supported in the TWITTER Service");
+        throw new RuntimeException("Specifying user restrictions isn't yet supported in the Twitter Service");
     }
 }

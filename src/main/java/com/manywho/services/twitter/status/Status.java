@@ -3,11 +3,11 @@ package com.manywho.services.twitter.status;
 import com.manywho.sdk.api.ContentType;
 import com.manywho.sdk.services.types.Type;
 
-@Type.Element(name = StatusType.NAME, summary = "Status")
-public class StatusType implements Type {
+@Type.Element(name = Status.NAME)
+public class Status implements Type {
     public final static String NAME = "Status";
 
-    public StatusType(String id, String text) {
+    public Status(String id, String text) {
         this.id = id;
         this.text = text;
     }
