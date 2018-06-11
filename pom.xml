@@ -37,6 +37,7 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>service-twitter</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

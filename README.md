@@ -5,7 +5,7 @@ Twitter Service
 
 [![Build Status](https://travis-ci.org/manywho/service-twitter.svg)](https://travis-ci.org/manywho/service-twitter)
 
-This service offers a very basic twitter integration for your flows, giving support for authorisation and update your status.
+This service offers a very basic Twitter integration for your flows, giving support for authorisation and updating your status.
 
 ## Usage
 
