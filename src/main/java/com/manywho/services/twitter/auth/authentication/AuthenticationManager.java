@@ -3,22 +3,21 @@ package com.manywho.services.twitter.auth.authentication;
 import com.google.common.base.Strings;
 import com.manywho.sdk.api.security.AuthenticatedWhoResult;
 import com.manywho.sdk.api.security.AuthenticationCredentials;
+import com.manywho.services.twitter.guice.TwitterProvider;
 import twitter4j.AccountSettings;
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
-
 import javax.inject.Inject;
 
 public class AuthenticationManager {
     private final AuthenticationRepository repository;
-    private final Twitter twitter;
+    private TwitterProvider provider;
 
     @Inject
-    public AuthenticationManager(AuthenticationRepository repository, Twitter twitter) {
+    public AuthenticationManager(AuthenticationRepository repository, TwitterProvider provider) {
         this.repository = repository;
-        this.twitter = twitter;
+        this.provider = provider;
     }
 
     public AuthenticatedWhoResult authentication(AuthenticationCredentials credentials) {
@@ -29,11 +28,12 @@ public class AuthenticationManager {
             throw new RuntimeException("No token secret could be found - the token times out after 5 minutes");
         }
 
-
         AccessToken accessToken;
 
         try {
-            accessToken = twitter.getOAuthAccessToken(new RequestToken(credentials.getToken(), tokenSecret), credentials.getVerifier());
+            accessToken = provider.get()
+                    .getOAuthAccessToken(new RequestToken(credentials.getToken(), tokenSecret), credentials.getVerifier());
+
         } catch (TwitterException e) {
             throw new RuntimeException("Unable to get the access token from Twitter: " + e.getMessage(), e);
         }
@@ -45,9 +45,9 @@ public class AuthenticationManager {
         // Now we need to create this concatenated token + secret "token" so we can send it back and forth in one field
         String token = String.format("%s:::%s", accessToken.getToken(), accessToken.getTokenSecret());
 
-        AccountSettings accountSettings = null;
+        AccountSettings accountSettings;
         try {
-            accountSettings = twitter.users().getAccountSettings();
+            accountSettings = provider.getWithToken(token).users().getAccountSettings();
         } catch (TwitterException e) {
             throw new RuntimeException("Error fetching user settings", e);
         }
