@@ -12,7 +12,7 @@ public class TwitterProvider implements Provider<Twitter> {
 
     @Override
     public Twitter get() {
-        Twitter twitter = TwitterFactory.getSingleton();
+        Twitter twitter = new TwitterFactory().getInstance();
         twitter.setOAuthConsumer(System.getenv("OAUTH_CLIENT_ID"), System.getenv("OAUTH_CLIENT_SECRET"));
         return twitter;
     }

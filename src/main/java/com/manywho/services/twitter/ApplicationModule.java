@@ -10,6 +10,6 @@ public class ApplicationModule extends AbstractModule {
     @Override
     protected void configure() {
         bind(JedisPool.class).toProvider(JedisPoolProvider.class).in(Singleton.class);
-        bind(Twitter.class).toProvider(TwitterProvider.class).in(Singleton.class);
+        bind(Twitter.class).toProvider(TwitterProvider.class);
     }
 }

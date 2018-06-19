@@ -9,6 +9,7 @@ import com.manywho.sdk.services.types.TypeBuilder;
 import com.manywho.sdk.services.types.system.$User;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 import twitter4j.auth.RequestToken;
 
 public class AuthorizationManager {
@@ -57,6 +58,8 @@ public class AuthorizationManager {
         if (status.equals("401")) {
             RequestToken requestToken;
             try {
+                Twitter twitter = new TwitterFactory().getInstance();
+                twitter.setOAuthConsumer(System.getenv("OAUTH_CLIENT_ID"), System.getenv("OAUTH_CLIENT_SECRET"));
                 requestToken = twitter.getOAuthRequestToken();
             } catch (TwitterException e) {
                 throw new RuntimeException("Unable to get the OAuth1.0a request token from Twitter", e);
