@@ -15,9 +15,9 @@ public class TwitterProvider implements Provider<Twitter> {
 
     public Twitter getWithToken(String requestToken) {
         String[] splitToken = requestToken.split(":::");
-        AccessToken accessToken = new AccessToken(splitToken[0], splitToken[1]);
-        Twitter twitter = new TwitterFactory().getInstance(accessToken);
-        //twitter.setOAuthConsumer(System.getenv("OAUTH_CLIENT_ID"), System.getenv("OAUTH_CLIENT_SECRET"));
+        Twitter twitter = new TwitterFactory().getInstance();
+        twitter.setOAuthConsumer(System.getenv("OAUTH_CLIENT_ID"), System.getenv("OAUTH_CLIENT_SECRET"));
+        twitter.setOAuthAccessToken(new AccessToken(splitToken[0], splitToken[1]));
         return twitter;
     }
 }
