@@ -6,17 +6,17 @@ import com.manywho.sdk.services.actions.ActionCommand;
 import com.manywho.sdk.services.actions.ActionResponse;
 import com.manywho.sdk.services.providers.AuthenticatedWhoProvider;
 import com.manywho.services.twitter.ServiceConfiguration;
-import com.manywho.services.twitter.guice.TwitterProvider;
+import com.manywho.services.twitter.twitter.TwitterFactory;
 import twitter4j.TwitterException;
 
 public class UpdateStatusCommand implements ActionCommand<ServiceConfiguration, UpdateStatus, UpdateStatus.Input, UpdateStatus.Output> {
-    private TwitterProvider provider;
+    private TwitterFactory twitterFactory;
     private AuthenticatedWhoProvider authenticatedWhoProvider;
 
     @Inject
-    public UpdateStatusCommand(AuthenticatedWhoProvider authenticatedWhoProvider, TwitterProvider provider) {
+    public UpdateStatusCommand(AuthenticatedWhoProvider authenticatedWhoProvider, TwitterFactory twitterFactory) {
         this.authenticatedWhoProvider = authenticatedWhoProvider;
-        this.provider = provider;
+        this.twitterFactory = twitterFactory;
     }
 
     @Override
@@ -24,7 +24,7 @@ public class UpdateStatusCommand implements ActionCommand<ServiceConfiguration, 
         twitter4j.Status status;
 
         try {
-            status = provider.getWithToken(authenticatedWhoProvider.get().getToken())
+            status = twitterFactory.get(authenticatedWhoProvider.get().getToken())
                     .tweets()
                     .updateStatus(input.getText());
         } catch (TwitterException e) {

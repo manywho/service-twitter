@@ -3,8 +3,9 @@ package com.manywho.services.twitter.auth.authentication;
 import com.google.common.base.Strings;
 import com.manywho.sdk.api.security.AuthenticatedWhoResult;
 import com.manywho.sdk.api.security.AuthenticationCredentials;
-import com.manywho.services.twitter.guice.TwitterProvider;
+import com.manywho.services.twitter.twitter.TwitterFactory;
 import twitter4j.AccountSettings;
+import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
@@ -12,12 +13,14 @@ import javax.inject.Inject;
 
 public class AuthenticationManager {
     private final AuthenticationRepository repository;
-    private TwitterProvider provider;
+    private Twitter twitter;
+    private TwitterFactory twitterFactory;
 
     @Inject
-    public AuthenticationManager(AuthenticationRepository repository, TwitterProvider provider) {
+    public AuthenticationManager(AuthenticationRepository repository, Twitter twitter, TwitterFactory twitterFactory) {
         this.repository = repository;
-        this.provider = provider;
+        this.twitter = twitter;
+        this.twitterFactory = twitterFactory;
     }
 
     public AuthenticatedWhoResult authentication(AuthenticationCredentials credentials) {
@@ -31,7 +34,7 @@ public class AuthenticationManager {
         AccessToken accessToken;
 
         try {
-            accessToken = provider.get()
+            accessToken = twitter
                     .getOAuthAccessToken(new RequestToken(credentials.getToken(), tokenSecret), credentials.getVerifier());
 
         } catch (TwitterException e) {
@@ -47,7 +50,7 @@ public class AuthenticationManager {
 
         AccountSettings accountSettings;
         try {
-            accountSettings = provider.getWithToken(token).users().getAccountSettings();
+            accountSettings = twitterFactory.get(token).users().getAccountSettings();
         } catch (TwitterException e) {
             throw new RuntimeException("Error fetching user settings", e);
         }
