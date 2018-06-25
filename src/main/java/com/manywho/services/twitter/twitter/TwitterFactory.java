@@ -12,7 +12,7 @@ public class TwitterFactory {
         this.twitter = twitter;
     }
 
-    public Twitter get(String token) {
+    public Twitter create(String token) {
         String[] splitToken = token.split(":::");
         twitter.setOAuthAccessToken(new AccessToken(splitToken[0], splitToken[1]));
 

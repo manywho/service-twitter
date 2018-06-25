@@ -38,7 +38,7 @@ public class AuthenticationManager {
                     .getOAuthAccessToken(new RequestToken(credentials.getToken(), tokenSecret), credentials.getVerifier());
 
         } catch (TwitterException e) {
-            throw new RuntimeException("Unable to get the access token from Twitter: " + e.getMessage(), e);
+            throw new RuntimeException("Unable to create the access token from Twitter: " + e.getMessage(), e);
         }
 
         if (accessToken == null) {
@@ -50,7 +50,7 @@ public class AuthenticationManager {
 
         AccountSettings accountSettings;
         try {
-            accountSettings = twitterFactory.get(token).users().getAccountSettings();
+            accountSettings = twitterFactory.create(token).users().getAccountSettings();
         } catch (TwitterException e) {
             throw new RuntimeException("Error fetching user settings", e);
         }

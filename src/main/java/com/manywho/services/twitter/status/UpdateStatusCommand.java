@@ -24,7 +24,7 @@ public class UpdateStatusCommand implements ActionCommand<ServiceConfiguration, 
         twitter4j.Status status;
 
         try {
-            status = twitterFactory.get(authenticatedWhoProvider.get().getToken())
+            status = twitterFactory.create(authenticatedWhoProvider.get().getToken())
                     .tweets()
                     .updateStatus(input.getText());
         } catch (TwitterException e) {
