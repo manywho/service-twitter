@@ -15,13 +15,13 @@ import twitter4j.auth.RequestToken;
 public class AuthorizationManager {
     private final AuthorizationRepository repository;
     private final TypeBuilder typeBuilder;
-    private TwitterProvider twitterProvider;
+    private Twitter twitter;
 
     @Inject
-    public AuthorizationManager(AuthorizationRepository repository, TypeBuilder typeBuilder, TwitterProvider twitterProvider) {
+    public AuthorizationManager(AuthorizationRepository repository, TypeBuilder typeBuilder, Twitter twitter) {
         this.repository = repository;
         this.typeBuilder = typeBuilder;
-        this.twitterProvider = twitterProvider;
+        this.twitter = twitter;
     }
 
     public ObjectDataResponse authorization(AuthenticatedWho authenticatedWho, ObjectDataRequest request) {
@@ -58,7 +58,6 @@ public class AuthorizationManager {
         if (status.equals("401")) {
             RequestToken requestToken;
             try {
-                Twitter twitter = twitterProvider.get();
                 requestToken = twitter.getOAuthRequestToken();
             } catch (TwitterException e) {
                 throw new RuntimeException("Unable to get the OAuth1.0a request token from Twitter", e);
