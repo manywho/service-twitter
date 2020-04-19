@@ -1,11 +1,10 @@
-FROM maven:3-jdk-10-slim AS build
+FROM maven:slim AS build
 WORKDIR /usr/src/app
-COPY pom.xml pom.xml
-RUN mvn dependency:resolve
 COPY src src
+COPY pom.xml pom.xml
 RUN mvn clean package
 
-FROM openjdk:10-jre-slim
+FROM openjdk:8-jre-slim
 EXPOSE 8080
-COPY --from=build /usr/src/app/target/service-twitter.jar /usr/src/app/target/service-twitter.jar
-CMD ["java", "-jar", "/usr/src/app/target/service-twitter.jar"]
+COPY --from=build /usr/src/app/target/service-twitter.jar /usr/src/app/target/service.jar
+ENTRYPOINT ["java", "-jar", "/usr/src/app/target/service.jar"]
